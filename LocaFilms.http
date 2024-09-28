@@ -1,0 +1,6 @@
+@LocaFilms_HostAddress = http://localhost:5239
+
+GET {{LocaFilms_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
