@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using AutoMapper;
 using LocaFilms.Dtos.Request;
 using LocaFilms.Dtos.Response;
 using LocaFilms.Models;
@@ -9,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LocaFilms.Controllers
 {
-    
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RentalController : ControllerBase
@@ -66,7 +69,27 @@ namespace LocaFilms.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPost]
         public async Task<IActionResult> CreateRental(CreateRentalDto createRentalDto)
-        {
+        {   
+            var clientIsEmployee = HttpContext.User.IsInRole(Roles.Admin) || 
+                                   HttpContext.User.IsInRole(Roles.Employee);
+
+            if (!clientIsEmployee)
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                createRentalDto.UserId = userId;
+            }
+
+            if (!clientIsEmployee && createRentalDto.PaymentStatus != Enums.PaymentStatusEnum.Pendente)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Houve um erro na requisição.",
+                    Detail = "Somente funcionários podem gerar um aluguel com o pagamento finalizado.",
+                    Status = StatusCodes.Status400BadRequest,
+                    Instance = HttpContext.Request.Path
+                });
+            }
+
             var movieRental = _mapper.Map<CreateRentalDto, MovieRentals>(createRentalDto);
             var result = await _rentalService.CreateRental(movieRental);
 
