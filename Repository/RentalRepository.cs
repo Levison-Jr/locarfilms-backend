@@ -26,6 +26,19 @@ namespace LocaFilms.Repository
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<MovieRentals>> GetByMovieIdAsync(
+            int movieId,
+            List<RentalStatusEnum> rentalStatusFilter)
+        {
+            var query = _appDbContext.MovieRentals.
+                Where(mr => mr.MovieId == movieId);
+
+            if (rentalStatusFilter.Count != 0)
+                query = query.Where(mr => rentalStatusFilter.Contains(mr.RentalStatus));
+
+            return await query.ToListAsync();
+        }
+
         public async Task<IEnumerable<MovieRentals>> GetByUserMovieIds(
             string userId,
             int movieId,

@@ -8,6 +8,7 @@ namespace LocaFilms.Repository
     {
         Task<MovieRentals?> GetByIdAsync(int id);
         Task<IEnumerable<MovieRentals>> GetByUserIdAsync(string id);
+        Task<IEnumerable<MovieRentals>> GetByMovieIdAsync(int movieId, List<RentalStatusEnum> rentalStatus);
         Task<IEnumerable<MovieRentals>> GetByUserMovieIds(string userId, int movieId, List<RentalStatusEnum> rentalStatus);
         Task AddAsync(MovieRentals movieRental);
         Task UpdateAsync(MovieRentals movieRental);
