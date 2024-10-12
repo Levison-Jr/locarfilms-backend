@@ -43,9 +43,9 @@ namespace LocaFilms.Services
             if (user == null || movie == null)
                 return new RentalResponse($"O usuário ({movieRental.UserId}) e/ou o filme {movieRental.MovieId} não está cadastrado.");
 
-            var check = await CheckActiveExistingRental(movieRental.UserId, movieRental.MovieId);
+            var check = await CheckActiveExistingRental(movieRental.MovieId);
             if (check)
-                return new RentalResponse($"Já existe um aluguel NÃO FINALIZADO do usuário {movieRental.UserId} para o filme {movieRental.MovieId}");
+                return new RentalResponse($"Existe um aluguel NÃO FINALIZADO do filme {movieRental.MovieId}");
 
             try
             {
@@ -98,12 +98,11 @@ namespace LocaFilms.Services
             }
         }
 
-        public async Task<bool> CheckActiveExistingRental(string userId, int movieId)
+        public async Task<bool> CheckActiveExistingRental(int movieId)
         {
             try
             {
-                var rental = await _rentalRepository.GetByUserMovieIds(
-                            userId,
+                var rental = await _rentalRepository.GetByMovieIdAsync(
                             movieId,
                             [RentalStatusEnum.AguardandoRetirada, RentalStatusEnum.EmAndamento]);
 
