@@ -56,11 +56,15 @@ namespace LocaFilms.Services.Identity
             var check = await _signInManager.PasswordSignInAsync(email, password, false, true);
 
             if (check.Succeeded)
+            {
+                var user = await _aspNetUserManager.FindByEmailAsync(email);
                 return new UserLoginResponse(
                     success: true,
                     message: string.Empty,
-                    accessToken: await GerarTokenJwt(email));
-
+                    accessToken: await GerarTokenJwt(user),
+                    userId: user?.Id);
+            }
+                
             string failMessage = "O email e/ou senha estão incorretos.";
             if (check.IsLockedOut)
                 failMessage = "Este usuário está bloqueado.";
@@ -70,16 +74,15 @@ namespace LocaFilms.Services.Identity
             return new UserLoginResponse(false, failMessage, string.Empty);
         }
 
-        private async Task<string> GerarTokenJwt(string email)
+        private async Task<string> GerarTokenJwt(UserModel? user)
         {
-            var user = await _aspNetUserManager.FindByEmailAsync(email);
-            if (user == null)
+            if (user == null || user.Email == null)
                 return string.Empty;
 
             List<Claim> claims =
             [
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, email),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),

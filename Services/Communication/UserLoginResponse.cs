@@ -7,11 +7,18 @@ namespace LocaFilms.Services.Communication
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? AccessToken { get; private set; }
+        public string? UserId { get; private set; }
 
-        public UserLoginResponse(bool success, string message, string accessToken) : base(success, message)
+        public UserLoginResponse(
+            bool success,
+            string message,
+            string accessToken,
+            string? userId = "") : base(success, message)
         {
             if (!string.IsNullOrEmpty(accessToken))
                 AccessToken = accessToken;
+            
+            UserId = userId;
         }
     }
 }
