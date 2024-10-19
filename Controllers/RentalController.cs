@@ -4,6 +4,7 @@ using System.Security.Claims;
 using AutoMapper;
 using LocaFilms.Dtos.Request;
 using LocaFilms.Dtos.Response;
+using LocaFilms.Enums;
 using LocaFilms.Models;
 using LocaFilms.Services;
 using LocaFilms.Services.Identity.Constants;
@@ -111,10 +112,28 @@ namespace LocaFilms.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [Authorize(Policy = Policies.isEmployee)]
         [HttpPut]
         public async Task<IActionResult> UpdateRental(UpdateRentalDto updateRentalDto)
         {
+            if (updateRentalDto.RentalStatus == RentalStatusEnum.Cancelado)
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var clientIsEmployee = HttpContext.User.IsInRole(Roles.Admin) ||
+                                       HttpContext.User.IsInRole(Roles.Employee);
+
+                if (!clientIsEmployee &&
+                userId != updateRentalDto.UserId)
+                {
+                    return BadRequest(new ProblemDetails
+                    {
+                        Title = "Houve um erro na requisição.",
+                        Detail = "Somente funcionários cancelar um aluguel de outro usuário.",
+                        Status = StatusCodes.Status400BadRequest,
+                        Instance = HttpContext.Request.Path
+                    });
+                }
+            }
+
             var movieRental = _mapper.Map<UpdateRentalDto, MovieRentals>(updateRentalDto);
             var result = await _rentalService.UpdateRental(movieRental);
 
