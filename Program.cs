@@ -21,10 +21,7 @@ namespace LocaFilms
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddControllers().AddJsonOptions(options =>
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-
+            builder.Services.AddControllers();
             builder.Services.AddCors(options => 
             {
                 options.AddPolicy(name: "DevMode",
