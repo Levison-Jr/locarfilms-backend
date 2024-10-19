@@ -8,6 +8,9 @@ namespace LocaFilms.Dtos.Request
         [Required(ErrorMessage = "O campo RentalId é obrigatório.")]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "O campo UserId é obrigatório.")]
+        public string? UserId { get; set; }
+
         [Required(ErrorMessage = "O campo RentalEndDate é obrigatório.")]
         public DateTime? RentalEndDate { get; set; }
 
