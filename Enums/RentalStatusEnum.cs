@@ -4,6 +4,7 @@
     {
         EmAndamento = 1,
         AguardandoRetirada,
+        Cancelado,
         Finalizado
     }
 }
