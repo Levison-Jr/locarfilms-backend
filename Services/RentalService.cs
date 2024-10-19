@@ -86,6 +86,9 @@ namespace LocaFilms.Services
 
             if (rentalToDelete == null)
                 return new RentalResponse($"Não existe um aluguel com id {id}");
+            
+            if (rentalToDelete.RentalStatus != RentalStatusEnum.AguardandoRetirada)
+                return new RentalResponse($"Só é possível excluir um aluguel que está pendente de retirada.");
 
             try
             {
