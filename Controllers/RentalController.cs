@@ -76,7 +76,7 @@ namespace LocaFilms.Controllers
 
             if (!clientIsEmployee)
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 createRentalDto.UserId = userId;
             }
 
@@ -112,28 +112,10 @@ namespace LocaFilms.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Authorize(Policy = Policies.isEmployee)]
         [HttpPut]
         public async Task<IActionResult> UpdateRental(UpdateRentalDto updateRentalDto)
         {
-            if (updateRentalDto.RentalStatus == RentalStatusEnum.Cancelado)
-            {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                var clientIsEmployee = HttpContext.User.IsInRole(Roles.Admin) ||
-                                       HttpContext.User.IsInRole(Roles.Employee);
-
-                if (!clientIsEmployee &&
-                userId != updateRentalDto.UserId)
-                {
-                    return BadRequest(new ProblemDetails
-                    {
-                        Title = "Houve um erro na requisição.",
-                        Detail = "Somente funcionários cancelar um aluguel de outro usuário.",
-                        Status = StatusCodes.Status400BadRequest,
-                        Instance = HttpContext.Request.Path
-                    });
-                }
-            }
-
             var movieRental = _mapper.Map<UpdateRentalDto, MovieRentals>(updateRentalDto);
             var result = await _rentalService.UpdateRental(movieRental);
 
@@ -157,6 +139,47 @@ namespace LocaFilms.Controllers
         public async Task<IActionResult> DeleteRental(int id)
         {
             var result = await _rentalService.DeleteRental(id);
+
+            if (!result.Success)
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Houve um erro na requisição.",
+                    Detail = result.Message,
+                    Status = StatusCodes.Status400BadRequest,
+                    Instance = HttpContext.Request.Path
+                });
+
+            return NoContent();
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [HttpPut("{rentalId}")]
+        public async Task<IActionResult> CancelRental(int rentalId)
+        {
+            var rental = await _rentalService.GetById(rentalId);
+
+            if (rental == null)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Houve um erro na requisição.",
+                    Detail = "O filme não existe.",
+                    Status = StatusCodes.Status400BadRequest,
+                    Instance = HttpContext.Request.Path
+                });
+            }
+
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var clientIsEmployee = HttpContext.User.IsInRole(Roles.Admin) ||
+                                   HttpContext.User.IsInRole(Roles.Employee);
+
+            if (!clientIsEmployee && userId != rental.UserId)
+                return Unauthorized();
+
+            rental.RentalStatus = RentalStatusEnum.Cancelado;
+            var result = await _rentalService.UpdateRental(rental);
 
             if (!result.Success)
                 return BadRequest(new ProblemDetails
