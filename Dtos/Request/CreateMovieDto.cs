@@ -31,8 +31,10 @@ namespace LocaFilms.Dtos.Request
         [Required(ErrorMessage = "O data de lançamento é obrigatória.")]
         public DateOnly ReleaseDate { get; set; }
 
+        [Required(ErrorMessage = "A imagem para o banner é obrigatória.")]
         public string? ImageBannerUrl { get; set; }
 
+        [Required(ErrorMessage = "A imagem para o ícone é obrigatória.")]
         public string? ImageIconUrl { get; set; }
     }
 }
