@@ -50,6 +50,7 @@ namespace LocaFilms.Services
             try
             {
                 await _rentalRepository.AddAsync(movieRental);
+                await _movieService.ChangeMovieStatus(movieRental.MovieId, MovieStatusEnum.isRented);
                 return new RentalResponse(movieRental);
             }
             catch (Exception ex)
@@ -72,6 +73,13 @@ namespace LocaFilms.Services
             try
             {
                 await _rentalRepository.UpdateAsync(rentalToUpdate);
+
+                var movieStatusShouldChange = movieRental.RentalStatus == RentalStatusEnum.Cancelado ||
+                                            movieRental.RentalStatus == RentalStatusEnum.Finalizado;
+
+                if (movieStatusShouldChange)
+                    await _movieService.ChangeMovieStatus(movieRental.MovieId, MovieStatusEnum.isAvailable);
+
                 return new RentalResponse(rentalToUpdate);
             }
             catch (Exception ex)
