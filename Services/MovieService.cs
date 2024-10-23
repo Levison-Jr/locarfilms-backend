@@ -1,4 +1,5 @@
-﻿using LocaFilms.Models;
+﻿using LocaFilms.Enums;
+using LocaFilms.Models;
 using LocaFilms.Repository;
 using LocaFilms.Services.Communication;
 
@@ -66,6 +67,25 @@ namespace LocaFilms.Services
             catch (Exception ex)
             {
                 return new MovieResponse($"Houve um erro ao tentar atualizar o Movie (id = {id}). Erro: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> ChangeMovieStatus(int movieId, MovieStatusEnum newStatus)
+        {
+            var movieToUpdate = await GetMovieByIdAsync(movieId);
+
+            if (movieToUpdate == null)
+                return false;
+
+            movieToUpdate.Status = newStatus;
+            try
+            {
+                await _movieRepository.UpdateAsync(movieToUpdate);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
