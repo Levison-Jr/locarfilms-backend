@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LocaFilms.Dtos.Request;
 using LocaFilms.Dtos.Response;
+using LocaFilms.Enums;
 using LocaFilms.Models;
 using LocaFilms.Services;
 using LocaFilms.Services.Identity.Constants;
@@ -25,9 +26,9 @@ namespace LocaFilms.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<MovieDto>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet]
-        public async Task<IActionResult> GetAllMovies()
+        public async Task<IActionResult> GetAllMovies(string? categoryFilter, MovieStatusEnum? movieStatusFilter)
         {
-            var movies = await _movieService.GetAllMoviesAsync();
+            var movies = await _movieService.GetAllMoviesAsync(categoryFilter, movieStatusFilter);
             var result = _mapper.Map<IEnumerable<MovieModel>, IEnumerable<MovieDto>>(movies);
 
             return Ok(result);
@@ -50,7 +51,7 @@ namespace LocaFilms.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(MovieDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        //[Authorize(Policy = Policies.isEmployee)]
+        [Authorize(Policy = Policies.isEmployee)]
         [HttpPost]
         public async Task<IActionResult> CreateMovie(CreateMovieDto createMovieDto)
         {
@@ -75,7 +76,7 @@ namespace LocaFilms.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        //[Authorize(Policy = Policies.isEmployee)]
+        [Authorize(Policy = Policies.isEmployee)]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateMovie(int id, UpdateMovieDto updateMovieDto)
         {

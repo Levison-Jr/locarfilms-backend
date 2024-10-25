@@ -14,11 +14,9 @@ namespace LocaFilms.Services
             _movieRepository = movieRepository;
         }
 
-        public async Task<IEnumerable<MovieModel>> GetAllMoviesAsync()
-        {
-            var movies = await _movieRepository.ListAsync();
-            
-            return movies;
+        public async Task<IEnumerable<MovieModel>> GetAllMoviesAsync(string? category, MovieStatusEnum? movieStatus)
+        {   
+            return await _movieRepository.ListAsync(category, movieStatus);
         }
 
         public async Task<MovieModel?> GetMovieByIdAsync(int id)
