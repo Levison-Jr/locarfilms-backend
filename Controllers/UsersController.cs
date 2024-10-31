@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using LocaFilms.Dtos.Request;
 using LocaFilms.Dtos.Response;
 using LocaFilms.Models;
@@ -44,10 +45,17 @@ namespace LocaFilms.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [Authorize(Policy = Policies.isEmployee)]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(string id)
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var clientIsEmployee = HttpContext.User.IsInRole(Roles.Admin) ||
+                                   HttpContext.User.IsInRole(Roles.Employee);
+
+            if (!clientIsEmployee && userId != id)
+                return Unauthorized();
+                
             UserModel? user = await _userService.GetUserByIdAsync(id);
 
             if (user == null)
