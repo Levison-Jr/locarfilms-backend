@@ -118,6 +118,13 @@ namespace LocaFilms.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(string id, UpdateUserDto updateUserDto)
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var clientIsEmployee = HttpContext.User.IsInRole(Roles.Admin) ||
+                                   HttpContext.User.IsInRole(Roles.Employee);
+
+            if (!clientIsEmployee && userId != id)
+                return Unauthorized();
+                
             var user = _mapper.Map<UpdateUserDto, UserModel>(updateUserDto);
             var result = await _userService.UpdateUserAsync(id, user);
 
