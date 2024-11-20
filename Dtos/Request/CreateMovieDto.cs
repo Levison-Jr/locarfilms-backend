@@ -36,5 +36,7 @@ namespace LocaFilms.Dtos.Request
 
         [Required(ErrorMessage = "A imagem para o ícone é obrigatória.")]
         public string? ImageIconUrl { get; set; }
+
+        public string? YouTubeTraillerUrl { get; set; }
     }
 }

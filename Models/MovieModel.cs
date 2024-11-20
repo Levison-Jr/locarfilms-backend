@@ -18,6 +18,7 @@ namespace LocaFilms.Models
         public DateTime LastModifiedDateTime { get; set; }
         public string ImageBannerUrl { get; set; }
         public string ImageIconUrl { get; set; }
+        public string YouTubeTraillerUrl { get; set; }
 
         [JsonIgnore]
         public IList<MovieRentals> MovieRentals { get; set; }

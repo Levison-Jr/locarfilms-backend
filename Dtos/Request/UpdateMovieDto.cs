@@ -37,5 +37,7 @@ namespace LocaFilms.Dtos.Request
         public string? ImageBannerUrl { get; set; }
 
         public string? ImageIconUrl { get; set; }
+
+        public string? YouTubeTraillerUrl { get; set; }
     }
 }

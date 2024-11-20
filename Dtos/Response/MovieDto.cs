@@ -15,5 +15,6 @@ namespace LocaFilms.Dtos.Response
         DateTime RegistrationDateTime,
         DateTime LastModifiedDateTime,
         string ImageBannerUrl,
-        string ImageIconUrl);
+        string ImageIconUrl,
+        string YouTubeTraillerUrl);
 }
