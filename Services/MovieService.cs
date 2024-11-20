@@ -52,7 +52,7 @@ namespace LocaFilms.Services
             movieToUpdate.Category = movie.Category;
             movieToUpdate.Status = movie.Status;
             movieToUpdate.CostPerDay = movie.CostPerDay;
-            movieToUpdate.LastModifiedDateTime = movie.LastModifiedDateTime;
+            movieToUpdate.LastModifiedDateTime = DateTime.Now;
             movieToUpdate.ReleaseDate = movie.ReleaseDate;
             movieToUpdate.ImageBannerUrl = movie.ImageBannerUrl;
             movieToUpdate.ImageIconUrl = movie.ImageIconUrl;
@@ -76,6 +76,7 @@ namespace LocaFilms.Services
                 return false;
 
             movieToUpdate.Status = newStatus;
+            movieToUpdate.LastModifiedDateTime = DateTime.Now;
             try
             {
                 await _movieRepository.UpdateAsync(movieToUpdate);
