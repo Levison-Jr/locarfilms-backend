@@ -9,6 +9,5 @@ namespace LocaFilms.Dtos.Response
         string LastName,
         string UserName,
         string Email,
-        string PhoneNumber,
-        decimal Balance);
+        string PhoneNumber);
 }

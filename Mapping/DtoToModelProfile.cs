@@ -9,11 +9,6 @@ namespace LocaFilms.Mapping
     {
         public DtoToModelProfile()
         {
-            CreateMap<CreateUserDto, UserModel>()
-                .ForMember(dest =>
-                dest.Balance,
-                opt => opt.MapFrom(_ => 0));
-
             CreateMap<UpdateUserDto, UserModel>();
 
             CreateMap<CreateMovieDto, MovieModel>()
