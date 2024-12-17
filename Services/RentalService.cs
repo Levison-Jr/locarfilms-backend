@@ -43,9 +43,12 @@ namespace LocaFilms.Services
             if (user == null || movie == null)
                 return new RentalResponse($"O usuário ({movieRental.UserId}) e/ou o filme {movieRental.MovieId} não está cadastrado.");
 
+            if (await _rentalRepository.CheckPendingRentalsByUser(movieRental.UserId) >= 2)
+                return new RentalResponse($"Não é possível ter mais do que 2 filmes pendentes.");
+
             var check = await CheckActiveExistingRental(movieRental.MovieId);
             if (check)
-                return new RentalResponse($"Existe um aluguel NÃO FINALIZADO do filme {movieRental.MovieId}");
+                return new RentalResponse($"Este filmes já está com um aluguel em andamento.");
 
             try
             {

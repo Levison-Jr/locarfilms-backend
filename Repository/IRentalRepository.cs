@@ -13,5 +13,6 @@ namespace LocaFilms.Repository
         Task AddAsync(MovieRentals movieRental);
         Task UpdateAsync(MovieRentals movieRental);
         Task DeleteAsync(MovieRentals movieRental);
+        Task<int> CheckPendingRentalsByUser(string userId);
     }
 }

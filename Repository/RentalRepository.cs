@@ -70,5 +70,13 @@ namespace LocaFilms.Repository
             _appDbContext.MovieRentals.Remove(movieRental);
             await _appDbContext.SaveChangesAsync();
         }
+
+        public async Task<int> CheckPendingRentalsByUser(string userId)
+        {
+            return await _appDbContext.MovieRentals
+                .Where(mr => mr.UserId == userId)
+                .Where(mr => mr.RentalStatus == RentalStatusEnum.AguardandoRetirada)
+                .CountAsync();
+        }
     }
 }
