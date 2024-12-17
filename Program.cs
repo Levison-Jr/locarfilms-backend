@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Json.Serialization;
 
 namespace LocaFilms
 {
@@ -59,14 +58,15 @@ namespace LocaFilms
             builder.Services.AddDefaultIdentity<UserModel>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
             var securityKeySettings = builder.Configuration.GetSection("JwtOptions:SecurityKey").Value;
             var jwtOptionsSettings = builder.Configuration.GetSection(nameof(JwtOptions));
 
             if (string.IsNullOrEmpty(securityKeySettings))
             {
-                throw new SecurityTokenException("A JWT Security Key não está configurada.");
+                throw new SecurityTokenException("A JWT Security Key nï¿½o estï¿½ configurada.");
             }
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKeySettings));
@@ -104,8 +104,8 @@ namespace LocaFilms
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
 
-                    // Distorção/Atraso do timer/relógio utilizado na validação de horários
-                    // Ex.: Validação do tempo de expiração de tokens
+                    // Distorï¿½ï¿½o/Atraso do timer/relï¿½gio utilizado na validaï¿½ï¿½o de horï¿½rios
+                    // Ex.: Validaï¿½ï¿½o do tempo de expiraï¿½ï¿½o de tokens
                     ClockSkew = TimeSpan.Zero
                 };
             });
