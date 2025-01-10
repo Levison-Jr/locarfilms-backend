@@ -1,9 +1,6 @@
 using LocaFilms.Contexts;
 using LocaFilms.Extensions;
 using LocaFilms.Models;
-using LocaFilms.Repository;
-using LocaFilms.Services;
-using LocaFilms.Services.Identity;
 using LocaFilms.Services.Identity.Configurations;
 using LocaFilms.Services.Identity.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -40,20 +37,7 @@ namespace LocaFilms
                 options.UseSqlServer(builder.Configuration.GetConnectionString("MainConnection"));
             });
 
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IUserService, UserService>();
-
-            builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-            builder.Services.AddScoped<IMovieService, MovieService>();
-
-            builder.Services.AddScoped<IRentalRepository, RentalRepository>();
-            builder.Services.AddScoped<IRentalService, RentalService>();
-
-            builder.Services.AddScoped<IIdentityService, IdentityService>();
-            builder.Services.AddScoped<AspNetUserManager<UserModel>>();
-            builder.Services.AddScoped<SignInManager<UserModel>>();
-
-            builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.AddApplicationServices(builder.Configuration);
 
             builder.Services.AddDefaultIdentity<UserModel>()
                 .AddRoles<IdentityRole>()
