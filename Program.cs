@@ -32,11 +32,6 @@ namespace LocaFilms
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("MainConnection"));
-            });
-
             builder.Services.AddApplicationServices(builder.Configuration);
 
             builder.Services.AddDefaultIdentity<UserModel>()
