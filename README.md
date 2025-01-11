@@ -50,8 +50,8 @@ Caso não tenha a versão necessária, visite o site https://dotnet.microsoft.co
 
 Com o terminal aberto, navegue até a pasta que deseja colocar o projeto e digite:
 
-    git clone https://github.com/Levison-Jr/locafilms.git
-    cd locafilms
+    git clone https://github.com/Levison-Jr/locarfilms-backend.git
+    cd locarfilms-backend
 
 ## Dependências
 
