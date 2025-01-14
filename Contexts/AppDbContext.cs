@@ -86,8 +86,8 @@ namespace LocaFilms.Contexts
                 new MovieModel
                 {
                     Id = 4,
-                    Title = "Vingadores: Ultimato",
-                    SubTitle = "",
+                    Title = "Vingadores",
+                    SubTitle = "Ultimato",
                     Description = "Os heróis restantes tentam reverter as consequências do estalo de Thanos e salvar o universo.",
                     Duration = "03:01",
                     Status = MovieStatusEnum.isAvailable,
@@ -205,8 +205,8 @@ namespace LocaFilms.Contexts
                 new MovieModel
                 {
                     Id = 11,
-                    Title = "Harry Potter e a Pedra Filosofal",
-                    SubTitle = "",
+                    Title = "Harry Potter",
+                    SubTitle = "E a Pedra Filosofal",
                     Description = "Um jovem bruxo descobre seu destino enquanto embarca em sua primeira aventura em Hogwarts.",
                     Duration = "02:32",
                     Status = MovieStatusEnum.isAvailable,
@@ -239,8 +239,8 @@ namespace LocaFilms.Contexts
                 new MovieModel
                 {
                     Id = 13,
-                    Title = "Homem-Aranha: Sem Volta Para Casa",
-                    SubTitle = "",
+                    Title = "Homem-Aranha",
+                    SubTitle = "Sem Volta Para Casa",
                     Description = "Peter Parker enfrenta desafios quando o multiverso é aberto e vilões do passado retornam.",
                     Duration = "02:28",
                     Status = MovieStatusEnum.isAvailable,
@@ -273,8 +273,8 @@ namespace LocaFilms.Contexts
                 new MovieModel
                 {
                     Id = 15,
-                    Title = "Jurassic Park: O Parque dos Dinossauros",
-                    SubTitle = "",
+                    Title = "Jurassic Park",
+                    SubTitle = "O Parque dos Dinossauros",
                     Description = "Cientistas criam um parque com dinossauros clonados, mas tudo sai de controle.",
                     Duration = "02:07",
                     Status = MovieStatusEnum.isAvailable,
