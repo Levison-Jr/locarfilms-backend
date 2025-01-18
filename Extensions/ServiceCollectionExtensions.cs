@@ -14,7 +14,10 @@ namespace LocaFilms.Extensions
         {
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("MainConnection"));
+                string connectionString = configuration.GetConnectionString("MainConnection") ??
+                    throw new InvalidOperationException("Connection string 'MainConnection' indefinida.");
+
+                options.UseSqlServer(connectionString);
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
