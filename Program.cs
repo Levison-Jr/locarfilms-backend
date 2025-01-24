@@ -1,4 +1,5 @@
 using LocaFilms.Extensions;
+using Microsoft.Net.Http.Headers;
 
 namespace LocaFilms
 {
@@ -23,12 +24,14 @@ namespace LocaFilms
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddApplicationServices(builder.Configuration);
             builder.Services.AddIdentityServices(builder.Configuration);
+            builder.Services.AddApplicationServices(builder.Configuration);
+            builder.Services.AddRateLimiterServices();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -42,6 +45,8 @@ namespace LocaFilms
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseRateLimiter();
 
             app.MapControllers();
 
