@@ -14,5 +14,10 @@ namespace LocaFilms.Repository
         {
             return await _appDbContext.Users.ToListAsync();
         }
+
+        public async Task<int> CountAsync()
+        {
+            return await _appDbContext.Users.CountAsync();
+        }
     }
 }

@@ -5,5 +5,6 @@ namespace LocaFilms.Repository
     public interface IUserRepository
     {
         Task<IEnumerable<UserModel>> ListAsync();
+        Task<int> CountAsync();
     }
 }
