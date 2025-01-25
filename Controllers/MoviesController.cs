@@ -24,7 +24,6 @@ namespace LocaFilms.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<MovieDto>))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet]
         public async Task<IActionResult> GetAllMovies(string? categoryFilter, MovieStatusEnum? movieStatusFilter)
         {
@@ -36,7 +35,6 @@ namespace LocaFilms.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetMovieById(int id)
         {
