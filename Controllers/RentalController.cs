@@ -1,6 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using AutoMapper;
 using LocaFilms.Dtos.Request;
 using LocaFilms.Dtos.Response;
@@ -10,6 +8,7 @@ using LocaFilms.Services;
 using LocaFilms.Services.Identity.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace LocaFilms.Controllers
 {
@@ -155,17 +154,18 @@ namespace LocaFilms.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [EnableRateLimiting(policyName: "CreateAndUpdate")]
         [HttpPut("{rentalId}")]
         public async Task<IActionResult> CancelRental(int rentalId)
         {
             var rental = await _rentalService.GetById(rentalId);
 
-            if (rental == null)
+            if (rental == null || rental.RentalStatus != RentalStatusEnum.AguardandoRetirada)
             {
                 return BadRequest(new ProblemDetails
                 {
                     Title = "Houve um erro na requisição.",
-                    Detail = "O filme não existe.",
+                    Detail = "O aluguel não existe ou já está em andamento.",
                     Status = StatusCodes.Status400BadRequest,
                     Instance = HttpContext.Request.Path
                 });
