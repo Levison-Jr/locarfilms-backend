@@ -5,6 +5,7 @@ namespace LocaFilms.Dtos.Request
 {
     public record CreateRentalDto
     {
+        [MaxLength(36, ErrorMessage = "Formato de ID inválido.")]
         [Required(ErrorMessage = "O campo UserId é obrigatório.")]
         public string? UserId { get; set; }
 

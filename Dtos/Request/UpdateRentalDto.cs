@@ -8,6 +8,7 @@ namespace LocaFilms.Dtos.Request
         [Required(ErrorMessage = "O campo RentalId é obrigatório.")]
         public int Id { get; set; }
 
+        [MaxLength(36, ErrorMessage = "Formato de ID inválido.")]
         [Required(ErrorMessage = "O campo UserId é obrigatório.")]
         public string? UserId { get; set; }
 
