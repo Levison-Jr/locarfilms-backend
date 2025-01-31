@@ -48,7 +48,7 @@ namespace LocaFilms.Services
 
             var check = await CheckActiveExistingRental(movieRental.MovieId);
             if (check)
-                return new RentalResponse($"Este filmes já está com um aluguel em andamento.");
+                return new RentalResponse($"Este filme já está com um aluguel em andamento.");
 
             try
             {
