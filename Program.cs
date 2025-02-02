@@ -12,12 +12,14 @@ namespace LocaFilms
             builder.Services.AddControllers();
             builder.Services.AddCors(options => 
             {
-                options.AddPolicy(name: "DevMode",
+                options.AddPolicy(name: "Production",
                     policy =>
                     {
-                        policy.AllowAnyOrigin()
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
+                        policy.WithOrigins("https://*.levisonjr-app.site")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            .WithMethods("GET", "POST", "PUT", "DELETE")
+                            .WithHeaders(HeaderNames.ContentType, HeaderNames.Accept, HeaderNames.Authorization)
+                            .WithExposedHeaders(HeaderNames.WWWAuthenticate);
                     });
             });
 
@@ -38,7 +40,7 @@ namespace LocaFilms
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("DevMode");
+            app.UseCors("Production");
 
             app.UseExceptionHandler("/error");
             app.UseHttpsRedirection();
