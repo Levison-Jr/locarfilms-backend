@@ -12,6 +12,15 @@ namespace LocaFilms
             builder.Services.AddControllers();
             builder.Services.AddCors(options => 
             {
+                options.AddPolicy(name: "dev",
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .WithExposedHeaders(HeaderNames.WWWAuthenticate);
+                    });
+
                 options.AddPolicy(name: "Production",
                     policy =>
                     {
@@ -40,7 +49,7 @@ namespace LocaFilms
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("Production");
+            app.UseCors("dev");
 
             app.UseExceptionHandler("/error");
             app.UseHttpsRedirection();
