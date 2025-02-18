@@ -1,5 +1,7 @@
 # LOCAR FILMS [Back-end]
 
+### Projeto publicado: https://locarfilms.levisonjr-app.site
+
 Locadoras de filmes fizeram parte de boa parte da minha vida, por isso resolvi trazer um pouco dessa lembrança para um projeto prático.
 
 A parte do back-end desse projeto é o que se encontra nesse repositório.
