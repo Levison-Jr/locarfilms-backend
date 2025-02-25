@@ -4,7 +4,7 @@
 
 Locadoras de filmes fizeram parte de boa parte da minha vida, por isso resolvi trazer um pouco dessa lembrança para um projeto prático.
 
-A parte do back-end desse projeto é o que se encontra nesse repositório.
+Para o **front-end** do projeto, acesse [aqui](https://github.com/Levison-Jr/locarfilms-frontend).
 
 # 📋 O projeto
 
@@ -14,8 +14,18 @@ Quando pensei em fazer esse projeto estabeleci algumas regras do que o projeto d
 - Um aluguel deve possuir **status** que indique seu progresso;
 - Cada filme pode ser alugado por um usuário de cada vez.
 
-# ⚙️Tecnologias utilizadas
+Partindo de pontos assim foi que elaborei os endpoints, serviços, modelos de entidades e banco de dados.
 
+## Testes Unitários
+
+Os testes relacionados ao projeto estão na pasta tests. Atualmente encontram-se os testados os serviços e repositórios de:
+
+ - [x] Filmes (*Movies*)
+ - [ ] Aluguéis (*Rents*)
+ - [ ] Usuários (*Users*)
+
+# ⚙️Tecnologias utilizadas
+***Web API, Serviços e Banco de Dados***
  - C#
  - .NET / ASP.NET Core
  - Entity Framework Core (EF Core)
@@ -23,6 +33,12 @@ Quando pensei em fazer esse projeto estabeleci algumas regras do que o projeto d
  - SQL Server
  - AutoMapper
  - Swagger
+
+***Testes Unitários***
+ - xUnit para o projeto
+ - Mocking com [NSubstitute](https://nsubstitute.github.io/)
+ - Geração de dados falsos/aleatórios usando a biblioteca [Bogus](https://github.com/bchavez/Bogus)
+ - SQLite para banco de dados em memória
 
 # 📌 Pontos abordados
 
@@ -42,7 +58,7 @@ Caso queira colocar este projeto no seu computador para testar e ver em funciona
 
 ## Versão do .NET
 
-Verifique que você possui instalada a versão 8 do .NET
+Pelo terminal, verifique se possui a versão 8 do .NET
 
     dotnet --version
 
