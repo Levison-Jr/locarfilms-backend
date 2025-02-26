@@ -47,9 +47,12 @@ namespace LocaFilms
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseCors("dev");
             }
-
-            app.UseCors("dev");
+            else
+            {
+                app.UseCors("Production");
+            }
 
             app.UseExceptionHandler("/error");
             app.UseHttpsRedirection();
