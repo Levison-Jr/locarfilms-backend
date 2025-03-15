@@ -25,6 +25,12 @@ Os testes relacionados ao projeto estão na pasta tests. Atualmente encontram-se
  - [ ] Usuários (*Users*)
 
 # ⚙️Tecnologias utilizadas
+***Contêineres***
+- Docker
+- Dockerfile gerando imagem da aplicação
+- Imagem oficial da Microsoft para o SQL Server
+- Docker Compose
+
 ***Web API, Serviços e Banco de Dados***
  - C#
  - .NET / ASP.NET Core
@@ -56,7 +62,31 @@ Os testes relacionados ao projeto estão na pasta tests. Atualmente encontram-se
 
 Caso queira colocar este projeto no seu computador para testar e ver em funcionamento, abra seu terminal e siga as instruções abaixo:
 
-## Versão do .NET
+## Clone o repositório
+Com o terminal aberto, navegue até a pasta que deseja colocar o projeto e digite:
+
+    git clone https://github.com/Levison-Jr/locarfilms-backend.git
+   
+Agora navegue no terminal para a pasta com o comando `cd locarfilms-backend` e siga um dos dois métodos a seguir. 
+
+## Método 1: Usando Docker
+A maneira mais fácil e rápida de executar a aplicação é utilizando o docker.
+
+### Verifique se possui o Docker instalado
+    docker --version
+
+Se não retornat a versão, então precisa instalar acessando a [página oficial do docker](https://www.docker.com/products/docker-desktop/).
+
+### Executando os Contêineres
+No terminal, dentro da pasta do projeto clonado, execute:
+
+    docker compose --project-name locarfilms-group up -d
+ > ⚠️ Você deve estar na pasta /locarfilms-backend para executar este comando, poque é nela que se encontra o arquivo docker-compose.yml
+
+Tudo pronto, já pode acessar http://localhost:4652/swagger/index.html e conferir a página do Swagger com os endpoints.
+
+## Método 2: Executar na própria máquina
+### Versão do .NET
 
 Pelo terminal, verifique se possui a versão 8 do .NET
 
@@ -64,22 +94,15 @@ Pelo terminal, verifique se possui a versão 8 do .NET
 
 Caso não tenha a versão necessária, visite o site https://dotnet.microsoft.com/pt-br/download da Microsoft para fazer o download.  
 
-## Clone o repositório
+### Dependências
 
-Com o terminal aberto, navegue até a pasta que deseja colocar o projeto e digite:
-
-    git clone https://github.com/Levison-Jr/locarfilms-backend.git
-    cd locarfilms-backend
-
-## Dependências
-
-Agora já dentro da pasta do projeto, faça a restauração, ou seja, o download das dependências necessárias para conseguir executar a aplicação:
+Já dentro da pasta do projeto, faça a restauração, ou seja, o download das dependências necessárias para conseguir executar a aplicação:
 
     dotnet restore
 
 Este comando vai "trazer" para seu computador os pacotes nuget que foram utilizados, sem que seja preciso você mesmo instalar um por um.
 
-## Banco de dados
+### Banco de dados
 
 No projeto é usado o SQL Server, então caso você ainda não tenha pode fazer o **download da versão gratuita para desenvolvedores** no link a seguir: https://www.microsoft.com/pt-br/sql-server/sql-server-downloads.
 
@@ -107,7 +130,7 @@ O próximo passo é finalmente gerar o banco de dados através das ***migrations
     
 Com o SSMS, você pode conferir o banco de dados criado e toda a sua estrutura de tabelas.
 
-## Variáveis de Ambiente
+### Variáveis de Ambiente
 
 Vale destacar algumas das variáveis presentes no arquivo appsettings.json, como a própria string de conexão que acabamos de configurar no passo anterior.
 
@@ -125,7 +148,7 @@ O que elas tem em comum é que são informações sensíveis e que em determinad
 
 Então apesar de o projeto ser uma prática, mantive estes valores nestas variáveis e não diretamente no código.
 
-## Execução
+### Execução
 
 Aplique no terminal:
 
@@ -137,8 +160,6 @@ Caso apareça uma mensagem de aviso/warning sobre não ter sido possível defini
     # A flag 'lp' significa 'launch profile'
     dotnet run -lp https
 
-Agora, veja o link fornecido no terminal (localhost + porta) e abra-o no seu navegador. Exemplo:
-
-    https://localhost:7141/swagger/index.html
+Agora, veja o link fornecido no terminal (localhost + porta) e abra-o no seu navegador. Exemplo: https://localhost:7141/swagger/index.html
 
 Este link vai te levar para a página de **documentação do swagger**, então a partir dela você pode fazer requisições de teste.
