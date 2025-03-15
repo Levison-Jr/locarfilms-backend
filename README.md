@@ -85,6 +85,10 @@ No terminal, dentro da pasta do projeto clonado, execute:
 
 Tudo pronto, já pode acessar http://localhost:4652/swagger/index.html e conferir a página do Swagger com os endpoints.
 
+Para encerrar a aplicação e remover os contêineres:
+
+    docker compose --project-name locarfilms-group down
+
 ## Método 2: Executar na própria máquina
 ### Versão do .NET
 
