@@ -1,4 +1,6 @@
+using LocaFilms.Contexts;
 using LocaFilms.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 
 namespace LocaFilms
@@ -63,6 +65,27 @@ namespace LocaFilms
             app.UseRateLimiter();
 
             app.MapControllers();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<AppDbContext>();
+
+                for (int i = 0; i < 5; i++)
+                {
+                    try
+                    {
+                        await context.Database.MigrateAsync();
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Erro ao aplicar migrations. Tentativa {i + 1}: {ex.Message}");
+                        await Task.Delay(5000);
+                    }
+                }
+            }
+
 
             await app.CreateRolesAsync();
             await app.CreateDefaultUserAsync(builder.Configuration);
