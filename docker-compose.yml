@@ -1,0 +1,43 @@
+﻿services:
+  api:
+    container_name: locarfilms-api
+    build:
+        context: ./src
+        dockerfile: Dockerfile
+    ports:
+        - 4652:8080
+    depends_on: ["sql-server"]
+    environment:
+      - "ASPNETCORE_HTTP_PORTS=8080"
+      - "ASPNETCORE_ENVIRONMENT=Development"
+      - "ConnectionStrings__MainConnection=Server=sqlserver;Database=LocarFilmsDB;User Id=sa;Password=Str0ng(!)Passw0rd;Encrypt=True;TrustServerCertificate=True"
+      - "JwtOptions__Issuer=http://localhost"
+      - "JwtOptions__Audience=Audience"
+      - "JwtOptions__SecurityKey=BCD7F849-51EE-4C7A-8742-1EBDB72DF58D-B846FAB9-F16E-4662-BDDD-7FADF0693499"
+      - "JwtOptions__AccessTokenExpiration=3600"
+      - "JwtOptions__RefreshTokenExpiration=7200"
+      - "ADMIN_EMAIL=admin@locarfilms.com"
+      - "ADMIN_PASSWORD=Senha@156"
+    networks:
+      locarfilms-network:
+
+
+  sql-server:
+    container_name: locarfilms-sqlserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "MSSQL_SA_PASSWORD=Str0ng(!)Passw0rd"
+    volumes:
+      - "volume-locarfilms-sql:/var/opt/mssql"
+    networks:
+      locarfilms-network:
+        aliases:
+          - "sqlserver"
+
+volumes:
+  volume-locarfilms-sql:
+  
+networks:
+  locarfilms-network:
+    driver: bridge
